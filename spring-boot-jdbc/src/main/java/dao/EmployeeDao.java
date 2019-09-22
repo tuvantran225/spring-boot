@@ -2,12 +2,13 @@ package dao;
 
 import mapper.EmployeeRowMapper;
 import model.Employee;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,11 +31,19 @@ public class EmployeeDao {
     }
 
     public List<Employee> getEmployees() {
-        return jdbcTemplate.query(GET_ALL_EMPLOYEES, new EmployeeRowMapper());
+        try {
+            return jdbcTemplate.query(GET_ALL_EMPLOYEES, new EmployeeRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return Collections.emptyList();
+        }
     }
 
     public Employee getEmployeeById(Long id) {
-        return jdbcTemplate.queryForObject(GET_EMPLOYEE_BY_ID, new Long[] {id}, new EmployeeRowMapper());
+        try {
+            return jdbcTemplate.queryForObject(GET_EMPLOYEE_BY_ID, new Long[] {id}, new EmployeeRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public List<Employee> getEmployeeByFirstNameAndLastName(String firstName, String lastName) {
@@ -42,7 +51,11 @@ public class EmployeeDao {
         HashMap<String, String> params = new HashMap<>();
         params.put("firstName", firstName);
         params.put("lastName", lastName);
-        return namedParameterJdbcTemplate.query(GET_EMPLOYEE_BY_FIRST_NAME_AND_LAST_NAME, params, new EmployeeRowMapper());
+        try {
+            return namedParameterJdbcTemplate.query(GET_EMPLOYEE_BY_FIRST_NAME_AND_LAST_NAME, params, new EmployeeRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
 }
