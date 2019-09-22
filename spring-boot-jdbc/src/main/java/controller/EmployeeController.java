@@ -11,16 +11,24 @@ import java.util.List;
 @RestController
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
+
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GetMapping("/employees")
     public ResponseEntity<List<Employee>> getEmployees() {
         return employeeService.getEmployees();
     }
 
+    @GetMapping("/employees/id")
+    public ResponseEntity<Employee> getEmployeeByFirstNameAndLastName(Long id) {
+        return employeeService.getEmployeeById(id);
+    }
+
     @GetMapping("/employees/name")
-    public ResponseEntity<Employee> getEmployeeByFirstNameAndLastName(String firstName, String lastName) {
+    public ResponseEntity<List<Employee>> getEmployeeByFirstNameAndLastName(String firstName, String lastName) {
         return employeeService.getEmployeeByFirstNameAndLastName(firstName, lastName);
     }
 

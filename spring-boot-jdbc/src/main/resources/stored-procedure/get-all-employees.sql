@@ -1,0 +1,6 @@
+DELIMITER //
+DROP PROCEDURE IF EXISTS GetAllEmployees//
+CREATE PROCEDURE GetAllEmployees()
+BEGIN
+    SELECT * FROM employees;
+END//

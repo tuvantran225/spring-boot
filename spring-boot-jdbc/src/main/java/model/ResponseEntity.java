@@ -18,13 +18,6 @@ public class ResponseEntity<T> {
         this.message = message;
     }
 
-    public ResponseEntity(int status, String error, String message, T data) {
-        this.status = status;
-        this.error = error;
-        this.message = message;
-        this.data = data;
-    }
-
     public int getStatus() {
         return status;
     }
