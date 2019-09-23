@@ -13,9 +13,14 @@ public class ResponseEntity<T> {
     }
 
     public ResponseEntity(int status, String error, String message) {
-        this.status = status;
+        this(status, null);
         this.error = error;
         this.message = message;
+    }
+
+    public ResponseEntity(int status, String error, String message, T data) {
+        this(status, error, message);
+        this.data = data;
     }
 
     public int getStatus() {

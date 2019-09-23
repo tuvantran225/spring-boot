@@ -11,7 +11,7 @@ public class EmployeeRowMapper implements RowMapper<Employee> {
     @Override
     public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
         Long id = rs.getLong("id");
-        String company = rs.getString("compay");
+        String company = rs.getString("company");
         String lastName = rs.getString("last_name");
         String firstName = rs.getString("first_name");
         String email = rs.getString("email_address");
@@ -27,7 +27,7 @@ public class EmployeeRowMapper implements RowMapper<Employee> {
         String country = rs.getString("country_region");
         String webPage = rs.getString("web_page");
         String notes = rs.getString("notes");
-        Byte attachments = rs.getByte("attachments");
+        byte[] attachments = rs.getBytes("attachments");
         return new Employee(id, company, lastName, firstName, email, job, businessPhone, homePhone,
                 mobilePhone, faxNumber, address, city, state, zipCode, country, webPage, notes, attachments);
     }

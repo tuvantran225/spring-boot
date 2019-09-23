@@ -19,12 +19,12 @@ public class Employee {
     private String country;
     private String webPage;
     private String notes;
-    private Byte attachments;
+    private byte[] attachments;
 
     public Employee(Long id, String company, String lastName, String firstName, String email, String job,
                     String businessPhone, String homePhone, String mobilePhone, String faxNumber, String address,
                     String city, String state, String zipCode, String country, String webPage, String notes,
-                    Byte attachments) {
+                    byte[] attachments) {
         this.id = id;
         this.company = company;
         this.lastName = lastName;
@@ -113,7 +113,7 @@ public class Employee {
         return notes;
     }
 
-    public Byte getAttachments() {
+    public byte[] getAttachments() {
         return attachments;
     }
 }
