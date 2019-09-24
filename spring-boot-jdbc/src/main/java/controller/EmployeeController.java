@@ -32,7 +32,7 @@ public class EmployeeController {
         return employeeService.getEmployeeByFirstNameAndLastName(firstName, lastName);
     }
 
-    @PutMapping("/employees")
+    @PostMapping("/employees")
     public boolean createEmployee(Employee employee, MultipartFile attachments) throws IOException {
         return employeeService.createEmployee(employee, attachments);
     }

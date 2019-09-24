@@ -1,7 +1,6 @@
 package mapper;
 
 import model.Employee;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
