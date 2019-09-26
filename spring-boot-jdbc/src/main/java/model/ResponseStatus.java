@@ -2,22 +2,16 @@ package model;
 
 public enum ResponseStatus {
 
-    SUCCESS(200, "Success"), ERROR(201, "Error");
+    SUCCESS(200), ERROR(201);
 
     private int code;
-    private String error;
 
-    ResponseStatus(int code, String error) {
+    ResponseStatus(int code) {
         this.code = code;
-        this.error = error;
     }
 
     public int getCode() {
         return code;
-    }
-
-    public String getError() {
-        return error;
     }
 
 }

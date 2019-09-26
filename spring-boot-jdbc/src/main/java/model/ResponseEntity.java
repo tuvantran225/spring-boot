@@ -1,41 +1,10 @@
 package model;
 
-public class ResponseEntity<T> {
+public abstract class ResponseEntity {
 
-    private int status;
-    private String error;
-    private String message;
-    private T data;
+    protected int status;
 
-    public ResponseEntity(int status, T data) {
-        this.status = status;
-        this.data = data;
-    }
-
-    public ResponseEntity(int status, String error, String message) {
-        this(status, null);
-        this.error = error;
-        this.message = message;
-    }
-
-    public ResponseEntity(int status, String error, String message, T data) {
-        this(status, error, message);
-        this.data = data;
-    }
-
-    public int getStatus() {
+    protected int getStatus() {
         return status;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public T getData() {
-        return data;
     }
 }

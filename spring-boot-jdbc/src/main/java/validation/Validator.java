@@ -8,7 +8,7 @@ import java.util.Optional;
 public class Validator {
 
     public boolean isRequiredName(String fieldName) {
-        return StringUtils.isEmpty(fieldName);
+        return StringUtils.isBlank(fieldName);
     }
 
     public boolean isRequiredCode(Integer fieldCode) {

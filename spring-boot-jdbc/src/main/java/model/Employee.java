@@ -1,9 +1,14 @@
 package model;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
+
 public class Employee {
 
     private Long id;
+    @NotEmpty(message = "Company is required")
     private String company;
+    @Max(value = 5, message = "Last name cannot greater than 50 characters")
     private String lastName;
     private String firstName;
     private String email;

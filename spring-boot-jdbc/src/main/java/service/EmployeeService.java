@@ -1,10 +1,7 @@
 package service;
 
 import dao.EmployeeDao;
-import model.Employee;
-import model.ResponseEntity;
-import model.ResponseStatus;
-import org.apache.commons.lang3.StringUtils;
+import model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,63 +27,47 @@ public class EmployeeService {
         this.employeeDao = employeeDao;
     }
 
-    public ResponseEntity<List<Employee>> getEmployees() {
+    public ResponseEntity getEmployees() {
         try {
-            return Optional.ofNullable(employeeDao.getEmployees())
-                    .filter(e -> !e.isEmpty())
-                    .map(e -> new ResponseEntity<>(ResponseStatus.SUCCESS.getCode(),
-                            ResponseStatus.SUCCESS.getError(),
-                            ResponseStatus.SUCCESS.getError(), e))
-                    .orElse(new ResponseEntity<>(ResponseStatus.SUCCESS.getCode(), ResponseStatus.SUCCESS.getError(),
-                            "No record found!"));
+            List<Employee> employees = employeeDao.getEmployees();
+            return new SuccessResponseEntity(ResponseStatus.SUCCESS.getCode(), employees);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity<>(ResponseStatus.ERROR.getCode(), ResponseStatus.ERROR.getError(), e.getMessage());
+            return new ErrorResponseEntity(ResponseStatus.ERROR.getCode(), Arrays.asList(e.toString()));
         }
     }
 
-    public ResponseEntity<Employee> getEmployeeById(Long id) {
-        Employee employee = null;
+    public ResponseEntity getEmployeeById(Long id) {
         try {
-            employee = employeeDao.getEmployeeById(id);
+            Employee employee = employeeDao.getEmployeeById(id);
             ByteArrayInputStream bis = new ByteArrayInputStream(employee.getAttachments());
             BufferedImage bImage2 = ImageIO.read(bis);
             ImageIO.write(bImage2, "jpg", new File("attachments.jpg") );
-            return Optional.ofNullable(employee)
-                    .map(e -> new ResponseEntity<>(ResponseStatus.SUCCESS.getCode(),
-                            ResponseStatus.SUCCESS.getError(),
-                            ResponseStatus.SUCCESS.getError(), e))
-                    .orElse(new ResponseEntity<>(ResponseStatus.SUCCESS.getCode(), ResponseStatus.SUCCESS.getError(),
-                            "No record found!"));
+            return new SuccessResponseEntity(ResponseStatus.SUCCESS.getCode(), employee);
         } catch (Exception e) {
-            if (e instanceof IllegalArgumentException) {
-                return Optional.ofNullable(employee)
-                        .map(emp -> new ResponseEntity<>(ResponseStatus.SUCCESS.getCode(),
-                                ResponseStatus.SUCCESS.getError(),
-                                ResponseStatus.SUCCESS.getError(), emp))
-                        .orElse(new ResponseEntity<>(ResponseStatus.SUCCESS.getCode(), ResponseStatus.SUCCESS.getError(),
-                                "No record found!"));
-            }
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity<>(ResponseStatus.ERROR.getCode(), ResponseStatus.ERROR.getError(), e.getMessage());
+            return new ErrorResponseEntity(ResponseStatus.ERROR.getCode(), Arrays.asList(e.toString()));
         }
 
     }
 
-    public ResponseEntity<List<Employee>> getEmployeeByFirstNameAndLastName(String firstName, String lastName) {
+    public ResponseEntity getEmployeeByFirstNameAndLastName(String firstName, String lastName) {
         try {
-            return Optional.ofNullable(employeeDao.getEmployeeByFirstNameAndLastName(firstName, lastName))
-                    .filter(e -> !e.isEmpty())
-                    .map(e -> new ResponseEntity<>(ResponseStatus.SUCCESS.getCode(), e))
-                    .orElse(new ResponseEntity<>(ResponseStatus.SUCCESS.getCode(), ResponseStatus.SUCCESS.getError(),
-                            "No record found"));
+            List<Employee> employees = employeeDao.getEmployeeByFirstNameAndLastName(firstName, lastName);
+            return new SuccessResponseEntity(ResponseStatus.SUCCESS.getCode(), employees);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity<>(ResponseStatus.ERROR.getCode(), ResponseStatus.ERROR.getError(), e.getMessage());
+            return new ErrorResponseEntity(ResponseStatus.ERROR.getCode(), Arrays.asList(e.toString()));
         }
     }
 
-    public boolean createEmployee(Employee employee, MultipartFile attachments) throws IOException {
-        return employeeDao.createEmployee(employee, attachments);
+    public ResponseEntity createEmployee(Employee employee, MultipartFile attachments) {
+        try {
+            boolean result = employeeDao.createEmployee(employee, attachments);
+            return new SuccessResponseEntity(ResponseStatus.SUCCESS.getCode(), result);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ErrorResponseEntity(ResponseStatus.ERROR.getCode(), Arrays.asList(e.toString()));
+        }
     }
 }

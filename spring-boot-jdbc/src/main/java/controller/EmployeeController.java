@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.EmployeeService;
 
-import java.io.IOException;
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 public class EmployeeController {
@@ -18,22 +17,22 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public ResponseEntity<List<Employee>> getEmployees() {
+    public ResponseEntity getEmployees() {
         return employeeService.getEmployees();
     }
 
     @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployeeByFirstNameAndLastName(@PathVariable Long id) {
+    public ResponseEntity getEmployeeByFirstNameAndLastName(@PathVariable Long id) {
         return employeeService.getEmployeeById(id);
     }
 
     @GetMapping("/employees/name")
-    public ResponseEntity<List<Employee>> getEmployeeByFirstNameAndLastName(String firstName, String lastName) {
+    public ResponseEntity getEmployeeByFirstNameAndLastName(String firstName, String lastName) {
         return employeeService.getEmployeeByFirstNameAndLastName(firstName, lastName);
     }
 
     @PostMapping("/employees")
-    public boolean createEmployee(Employee employee, MultipartFile attachments) throws IOException {
+    public ResponseEntity createEmployee(@Valid @RequestBody Employee employee, MultipartFile attachments) {
         return employeeService.createEmployee(employee, attachments);
     }
 
