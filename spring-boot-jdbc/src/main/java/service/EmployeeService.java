@@ -1,35 +1,32 @@
 package service;
 
-import dao.EmployeeDao;
+import dao.EmployeeProcedureDao;
+import dao.EmployeeSqlBuilderDao;
 import model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeService.class);
 
-    private final EmployeeDao employeeDao;
+    private final EmployeeProcedureDao employeeDao;
+    private final EmployeeSqlBuilderDao employeeSqlBuilderDao;
 
-    public EmployeeService(EmployeeDao employeeDao) {
-        this.employeeDao = employeeDao;
+    public EmployeeService(EmployeeProcedureDao employeeProcedureDao, EmployeeSqlBuilderDao employeeSqlBuilderDao) {
+        this.employeeDao = employeeProcedureDao;
+        this.employeeSqlBuilderDao = employeeSqlBuilderDao;
     }
 
-    public ResponseEntity getEmployees() {
+    public ResponseEntity getEmployees(EmployeeSearchRequest filter) {
         try {
-            List<Employee> employees = employeeDao.getEmployees();
+            List<Employee> employees = employeeSqlBuilderDao.getEmployees(filter);
             return new SuccessResponseEntity(ResponseStatus.SUCCESS.getCode(), employees);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -39,10 +36,10 @@ public class EmployeeService {
 
     public ResponseEntity getEmployeeById(Long id) {
         try {
-            Employee employee = employeeDao.getEmployeeById(id);
-            ByteArrayInputStream bis = new ByteArrayInputStream(employee.getAttachments());
-            BufferedImage bImage2 = ImageIO.read(bis);
-            ImageIO.write(bImage2, "jpg", new File("attachments.jpg") );
+            Employee employee = employeeSqlBuilderDao.getEmployeeById(id);
+//            ByteArrayInputStream bis = new ByteArrayInputStream(employee.getAttachments());
+//            BufferedImage bImage2 = ImageIO.read(bis);
+//            ImageIO.write(bImage2, "jpg", new File("attachments.jpg") );
             return new SuccessResponseEntity(ResponseStatus.SUCCESS.getCode(), employee);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -51,19 +48,19 @@ public class EmployeeService {
 
     }
 
-    public ResponseEntity getEmployeeByFirstNameAndLastName(String firstName, String lastName) {
+    public ResponseEntity createEmployee(Employee employee, MultipartFile attachments) {
         try {
-            List<Employee> employees = employeeDao.getEmployeeByFirstNameAndLastName(firstName, lastName);
-            return new SuccessResponseEntity(ResponseStatus.SUCCESS.getCode(), employees);
+            boolean result = employeeSqlBuilderDao.createEmployee(employee, attachments);
+            return new SuccessResponseEntity(ResponseStatus.SUCCESS.getCode(), result);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return new ErrorResponseEntity(ResponseStatus.ERROR.getCode(), Arrays.asList(e.toString()));
         }
     }
 
-    public ResponseEntity createEmployee(Employee employee, MultipartFile attachments) {
+    public ResponseEntity updateEmployee(Employee employee, Long id) {
         try {
-            boolean result = employeeDao.createEmployee(employee, attachments);
+            boolean result = employeeSqlBuilderDao.updateEmployee(employee, id);
             return new SuccessResponseEntity(ResponseStatus.SUCCESS.getCode(), result);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

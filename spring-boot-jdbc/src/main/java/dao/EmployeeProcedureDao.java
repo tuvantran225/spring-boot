@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class EmployeeDao {
+public class EmployeeProcedureDao {
 
     @Value("${GET_ALL_EMPLOYEES}")
     private String GET_ALL_EMPLOYEES;
@@ -32,7 +32,7 @@ public class EmployeeDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public EmployeeDao(JdbcTemplate jdbcTemplate) {
+    public EmployeeProcedureDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -85,6 +85,6 @@ public class EmployeeDao {
         params.put("notes", employee.getNotes());
         params.put("attachments", attachments.getBytes());
         Integer result = jdbcTemplate.update(CREATE_EMPLOYEE, params);
-        return Optional.ofNullable(result).map(re -> re == 1).orElse(false);
+        return Optional.of(result).map(re -> re == 1).orElse(false);
     }
 }
