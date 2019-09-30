@@ -28,6 +28,6 @@ public class EmployeeRowMapper implements RowMapper<Employee> {
         String notes = rs.getString("notes");
         byte[] attachments = rs.getBytes("attachments");
         return new Employee(id, company, lastName, firstName, email, job, businessPhone, homePhone,
-                mobilePhone, faxNumber, address, city, state, zipCode, country, webPage, notes, attachments);
+                mobilePhone, faxNumber, address, city, state, zipCode, country, webPage, notes);
     }
 }

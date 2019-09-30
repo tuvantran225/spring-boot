@@ -1,14 +1,20 @@
 package model;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.NumberFormat;
+import validation.NotExistingEmployeeId;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class Employee {
 
+    @NotNull(message = "Employee id must not be null")
+    @NumberFormat(style = NumberFormat.Style.NUMBER)
+    @NotExistingEmployeeId
     private Long id;
-    @NotEmpty(message = "Company is required")
+    @NotEmpty(message = "Company must not be empty")
+    @NotNull(message = "Company must not be null")
     private String company;
     @Length(max = 50, message = "Last name cannot greater than 50 characters")
     private String lastName;
@@ -30,8 +36,7 @@ public class Employee {
 
     public Employee(Long id, String company, String lastName, String firstName, String email, String job,
                     String businessPhone, String homePhone, String mobilePhone, String faxNumber, String address,
-                    String city, String state, String zipCode, String country, String webPage, String notes,
-                    byte[] attachments) {
+                    String city, String state, String zipCode, String country, String webPage, String notes) {
         this.id = id;
         this.company = company;
         this.lastName = lastName;
@@ -49,7 +54,6 @@ public class Employee {
         this.country = country;
         this.webPage = webPage;
         this.notes = notes;
-        this.attachments = attachments;
     }
 
     public Long getId() {

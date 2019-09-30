@@ -4,6 +4,7 @@ import model.ResponseStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -24,12 +25,23 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         body.put("status", ResponseStatus.SUCCESS.getCode());
 
         //Get all errors
-        List<String> errors = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(x -> x.getDefaultMessage())
+        Map<String, List<String>> errorMap = new HashMap<>();
+        ArrayList<String> errorMessages = null;
+        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors().stream()
+                .sorted((o1, o2) -> o1.getField().compareTo(o2.getField()))
                 .collect(Collectors.toList());
-        body.put("errors", errors);
+        for (FieldError fieldError : fieldErrors) {
+            if (errorMap.get(fieldError.getField()) == null) {
+                errorMessages = new ArrayList<>();
+                errorMessages.add(fieldError.getDefaultMessage());
+                errorMap.put(fieldError.getField(), errorMessages);
+            } else {
+                errorMessages.add(fieldError.getDefaultMessage());
+                errorMap.put(fieldError.getField(), errorMessages);
+            }
+        }
+
+        body.put("errors", errorMap);
         return new ResponseEntity<>(body, status);
     }
 
