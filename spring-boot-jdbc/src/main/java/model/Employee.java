@@ -2,6 +2,7 @@ package model;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.NumberFormat;
+import validation.DuplicatedEmployeeEmail;
 import validation.NotExistingEmployeeId;
 
 import javax.validation.constraints.NotEmpty;
@@ -19,6 +20,8 @@ public class Employee {
     @Length(max = 50, message = "Last name cannot greater than 50 characters")
     private String lastName;
     private String firstName;
+    @NotNull(message = "Email must not be null")
+    @DuplicatedEmployeeEmail
     private String email;
     private String job;
     private String businessPhone;

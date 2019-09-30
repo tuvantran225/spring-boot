@@ -64,6 +64,20 @@ public class EmployeeSqlBuilderDao {
         }
     }
 
+    public Employee getEmployeeByEmail(String email) {
+        SqlBuilder sqlBuilder = new SqlBuilder(EmloyeeConstant.EMPLOYEE_TABLE);
+        String query = sqlBuilder
+                .where(
+                        equal(EmployeeProperties.EMAIL.getColumnName(), email)
+                )
+                .toSql();
+        try {
+            return jdbcTemplate.queryForObject(query, sqlBuilder.getQueryParameterValues().toArray(), new EmployeeRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
     public boolean createEmployee(Employee employee, MultipartFile attachments) throws IOException, IllegalAccessException {
         HashMap<String, Object> params = new HashMap<>();
         for (int i = 1; i < EmployeeProperties.values().length; i++) {
