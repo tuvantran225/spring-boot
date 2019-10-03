@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.EmployeeService;
 
-import javax.validation.Valid;
-
 @RestController
 public class EmployeeController {
 
@@ -28,12 +26,12 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public ResponseEntity createEmployee(@Valid @RequestBody Employee employee, MultipartFile attachments) {
+    public ResponseEntity createEmployee(Employee employee, MultipartFile attachments) {
         return employeeService.createEmployee(employee, attachments);
     }
 
     @PutMapping("/employees/{id}")
-    public ResponseEntity updateEmployee(@Valid @RequestBody Employee employee, @PathVariable Long id) {
+    public ResponseEntity updateEmployee(Employee employee, @PathVariable Long id) {
         return employeeService.updateEmployee(employee, id);
     }
 

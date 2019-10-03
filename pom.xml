@@ -33,4 +33,9 @@
         </dependency>
     </dependencies>
 
+    <modules>
+        <module>spring-boot-common</module>
+        <module>spring-boot-jdbc</module>
+        <module>spring-boot-validation</module>
+    </modules>
 </project>

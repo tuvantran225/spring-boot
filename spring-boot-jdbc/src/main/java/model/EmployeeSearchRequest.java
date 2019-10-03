@@ -3,9 +3,19 @@ package model;
 public class EmployeeSearchRequest {
 
     private String company;
-    public String firstName;
-    public String lastName;
+    private String firstName;
+    private String lastName;
     private Long privilegeId;
+
+    public EmployeeSearchRequest() {
+    }
+
+    public EmployeeSearchRequest(String company, String firstName, String lastName, Long privilegeId) {
+        this.company = company;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.privilegeId = privilegeId;
+    }
 
     public String getCompany() {
         return company;

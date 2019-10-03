@@ -1,6 +1,7 @@
 package mapper;
 
 import model.Employee;
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -26,8 +27,8 @@ public class EmployeeRowMapper implements RowMapper<Employee> {
         String country = rs.getString("country_region");
         String webPage = rs.getString("web_page");
         String notes = rs.getString("notes");
-        byte[] attachments = rs.getBytes("attachments");
+        Byte[] attachments = ArrayUtils.toObject(rs.getBytes("attachments"));
         return new Employee(id, company, lastName, firstName, email, job, businessPhone, homePhone,
-                mobilePhone, faxNumber, address, city, state, zipCode, country, webPage, notes);
+                mobilePhone, faxNumber, address, city, state, zipCode, country, webPage, notes, attachments);
     }
 }
