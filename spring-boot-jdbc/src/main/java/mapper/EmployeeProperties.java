@@ -2,31 +2,37 @@ package mapper;
 
 public enum EmployeeProperties {
 
-    ID("Id", "id"),
-    COMPANY("Company", "company"),
-    LAST_NAME("Last name", "last_name"),
-    FIRST_NAME("First name", "first_name"),
-    EMAIL("Email", "email_address"),
-    JOB("Job", "job_title"),
-    BUSINESS_PHONE("Business phone", "business_phone"),
-    HOME_PHONE("Home phone", "home_phone"),
-    MOBILE_PHONE("Mobile phone", "mobile_phone"),
-    FAX("Fax", "fax_number"),
-    ADDRESS("Address", "address"),
-    CITY("City", "city"),
-    STATE("State", "state_province"),
-    ZIP_CODE("Zip code", "zip_postal_code"),
-    COUNTRY("Country", "country_region"),
-    WEB_PAGE("Web page", "web_page"),
-    NOTES("Notes", "notes"),
-    ATTACHMENTS("Attachments", "attachments");
+    ID("id", "Id", "id"),
+    COMPANY("company", "Company", "company"),
+    LAST_NAME("lastName", "Last name", "last_name"),
+    FIRST_NAME("firstName", "First name", "first_name"),
+    EMAIL("email", "Email", "email_address"),
+    JOB("job", "Job", "job_title"),
+    BUSINESS_PHONE("businessPhone", "Business phone", "business_phone"),
+    HOME_PHONE("homePhone", "Home phone", "home_phone"),
+    MOBILE_PHONE("mobilePhone", "Mobile phone", "mobile_phone"),
+    FAX("faxNumber", "Fax number", "fax_number"),
+    ADDRESS("address", "Address", "address"),
+    CITY("city", "City", "city"),
+    STATE("state", "State Province", "state_province"),
+    ZIP_CODE("zipCode", "Zip postal code", "zip_postal_code"),
+    COUNTRY("country", "Country", "country_region"),
+    WEB_PAGE("webPage", "Web page", "web_page"),
+    NOTES("notes", "Notes", "notes"),
+    ATTACHMENTS("attachments", "Attachments", "attachments");
 
+    private String propertyName;
     private String fieldName;
     private String columnName;
 
-    EmployeeProperties(String fieldName, String columnName) {
+    EmployeeProperties(String propertyName, String fieldName, String columnName) {
+        this.propertyName = propertyName;
         this.fieldName = fieldName;
         this.columnName = columnName;
+    }
+
+    public String getPropertyName() {
+        return propertyName;
     }
 
     public String getFieldName() {

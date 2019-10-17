@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.EmployeeService;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class EmployeeController {
 
@@ -15,9 +16,14 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    @GetMapping("/all-employees")
+    public ResponseEntity getEmployees() {
+        return employeeService.getAllEmployees();
+    }
+
     @GetMapping("/employees")
     public ResponseEntity getEmployees(EmployeeSearchRequest filter) {
-        return employeeService.getEmployees(filter);
+        return employeeService.getEmployeeByFilter(filter);
     }
 
     @GetMapping("/employees/{id}")

@@ -1,7 +1,9 @@
 package dao;
 
+import mapper.EmployeeProperties;
 import mapper.EmployeeRowMapper;
 import model.Employee;
+import model.EmployeeSearchRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,8 +26,8 @@ public class EmployeeProcedureDao {
     @Value("${GET_EMPLOYEE_BY_ID}")
     private String GET_EMPLOYEE_BY_ID;
 
-    @Value("${GET_EMPLOYEE_BY_FIRST_NAME_AND_LAST_NAME}")
-    private String GET_EMPLOYEE_BY_FIRST_NAME_AND_LAST_NAME;
+    @Value("${GET_EMPLOYEE_BY_FILTER}")
+    private String GET_EMPLOYEE_BY_FILTER;
 
     @Value("${CREATE_EMPLOYEE}")
     private String CREATE_EMPLOYEE;
@@ -36,7 +38,7 @@ public class EmployeeProcedureDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Employee> getEmployees() {
+    public List<Employee> getAllEmployees() {
         try {
             return jdbcTemplate.query(GET_ALL_EMPLOYEES, new EmployeeRowMapper());
         } catch (EmptyResultDataAccessException e) {
@@ -52,13 +54,28 @@ public class EmployeeProcedureDao {
         }
     }
 
-    public List<Employee> getEmployeeByFirstNameAndLastName(String firstName, String lastName) {
+    public List<Employee> getEmployeeByFilter(EmployeeSearchRequest filter) {
         NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
         HashMap<String, String> params = new HashMap<>();
-        params.put("firstName", firstName);
-        params.put("lastName", lastName);
+        params.put(EmployeeProperties.COMPANY.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.LAST_NAME.getPropertyName(), filter.getLastName());
+        params.put(EmployeeProperties.FIRST_NAME.getPropertyName(), filter.getFirstName());
+        params.put(EmployeeProperties.EMAIL.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.JOB.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.BUSINESS_PHONE.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.HOME_PHONE.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.MOBILE_PHONE.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.FAX.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.ADDRESS.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.CITY.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.STATE.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.ZIP_CODE.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.COUNTRY.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.WEB_PAGE.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.NOTES.getPropertyName(), filter.getCompany());
+        params.put(EmployeeProperties.ATTACHMENTS.getPropertyName(), filter.getCompany());
         try {
-            return namedParameterJdbcTemplate.query(GET_EMPLOYEE_BY_FIRST_NAME_AND_LAST_NAME, params, new EmployeeRowMapper());
+            return namedParameterJdbcTemplate.query(GET_EMPLOYEE_BY_FILTER, params, new EmployeeRowMapper());
         } catch (EmptyResultDataAccessException e) {
             return null;
         }

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
-@ComponentScan({"controller", "service", "dao", "validation"})
+@ComponentScan({"controller", "service", "dao"})
 @PropertySource({"classpath:stored-procedure/stored-procedures.properties", "classpath:i18n/message_en.properties"})
 public class Application {
 

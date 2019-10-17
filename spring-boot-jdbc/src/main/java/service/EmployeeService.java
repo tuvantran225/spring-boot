@@ -24,9 +24,19 @@ public class EmployeeService {
         this.employeeSqlBuilderDao = employeeSqlBuilderDao;
     }
 
-    public ResponseEntity getEmployees(EmployeeSearchRequest filter) {
+    public ResponseEntity getAllEmployees() {
         try {
-            List<Employee> employees = employeeSqlBuilderDao.getEmployees(filter);
+            List<Employee> employees = employeeDao.getAllEmployees();
+            return new SuccessResponseEntity(ResponseStatus.SUCCESS.getCode(), employees);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ErrorResponseEntity(ResponseStatus.ERROR.getCode(), Arrays.asList(e.toString()));
+        }
+    }
+
+    public ResponseEntity getEmployeeByFilter(EmployeeSearchRequest filter) {
+        try {
+            List<Employee> employees = employeeDao.getEmployeeByFilter(filter);
             return new SuccessResponseEntity(ResponseStatus.SUCCESS.getCode(), employees);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
