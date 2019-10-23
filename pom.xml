@@ -37,5 +37,9 @@
         <module>spring-boot-common</module>
         <module>spring-boot-jdbc</module>
         <module>spring-boot-validation</module>
+        <module>scheduling-tasks</module>
+        <module>uploading-files</module>
+        <module>spring-boot-scheduling-tasks</module>
+        <module>spring-boot-uploading-files</module>
     </modules>
 </project>
