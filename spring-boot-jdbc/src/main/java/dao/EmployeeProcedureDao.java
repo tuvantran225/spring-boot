@@ -23,6 +23,9 @@ public class EmployeeProcedureDao {
     @Value("${GET_ALL_EMPLOYEES}")
     private String GET_ALL_EMPLOYEES;
 
+    @Value("${GET_ALL_EMPLOYEE_ERROR}")
+    private String GET_ALL_EMPLOYEE_ERROR;
+
     @Value("${GET_EMPLOYEE_BY_ID}")
     private String GET_EMPLOYEE_BY_ID;
 
@@ -41,6 +44,14 @@ public class EmployeeProcedureDao {
     public List<Employee> getAllEmployees() {
         try {
             return jdbcTemplate.query(GET_ALL_EMPLOYEES, new EmployeeRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return Collections.emptyList();
+        }
+    }
+
+    public List<Employee> getAllEmployeeError() {
+        try {
+            return jdbcTemplate.query(GET_ALL_EMPLOYEE_ERROR, new EmployeeRowMapper());
         } catch (EmptyResultDataAccessException e) {
             return Collections.emptyList();
         }

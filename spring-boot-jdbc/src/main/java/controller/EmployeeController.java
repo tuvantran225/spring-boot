@@ -1,12 +1,12 @@
 package controller;
 import model.Employee;
 import model.EmployeeSearchRequest;
-import model.ResponseEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import service.EmployeeService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 public class EmployeeController {
 
@@ -16,9 +16,19 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/all-employees")
-    public ResponseEntity getEmployees() {
-        return employeeService.getAllEmployees();
+    @GetMapping("/all-employee-list")
+    public ResponseEntity getAllEmployeeList() {
+        return employeeService.getAllEmployeeList();
+    }
+
+    @GetMapping("/all-employee-map")
+    public ResponseEntity getAllEmployeeMap() {
+        return employeeService.getAllEmployeeMap();
+    }
+
+    @GetMapping("/all-employee-error")
+    public ResponseEntity getAllEmployeeError() {
+        return employeeService.getAllEmployeeError();
     }
 
     @GetMapping("/employees")
