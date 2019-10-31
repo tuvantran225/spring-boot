@@ -1,4 +1,4 @@
-package validation;
+package validation.annotation;
 
 import org.apache.commons.lang3.StringUtils;
 

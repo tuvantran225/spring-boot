@@ -2,6 +2,10 @@ package service;
 
 import dao.EmployeeProcedureDao;
 import dao.EmployeeSqlBuilderDao;
+import http.ErrorResponse;
+import http.Response;
+import http.Status;
+import http.SuccessResponse;
 import model.Employee;
 import model.EmployeeSearchRequest;
 import org.slf4j.Logger;
@@ -11,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class EmployeeService {
@@ -29,13 +30,13 @@ public class EmployeeService {
         this.employeeSqlBuilderDao = employeeSqlBuilderDao;
     }
 
-    public ResponseEntity getAllEmployeeList() {
+    public Response getAllEmployeeList() {
         try {
             List<Employee> employees = employeeDao.getAllEmployees();
-            return new ResponseEntity(employees, HttpStatus.OK);
+            return new SuccessResponse(Status.SUCCESS.getCode(), employees);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
+            return new ErrorResponse(Status.INTERNAL_SERVER_ERROR.getCode(), Status.INTERNAL_SERVER_ERROR.getDesc());
         }
     }
 
@@ -45,17 +46,17 @@ public class EmployeeService {
             return new ResponseEntity(employees, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public ResponseEntity getAllEmployeeError() {
+    public Response getAllEmployeeError() {
         try {
             List<Employee> employees = employeeDao.getAllEmployeeError();
-            return new ResponseEntity(employees, HttpStatus.OK);
+            return new SuccessResponse(Status.SUCCESS.getCode(), employees);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
+            return new ErrorResponse(Status.INTERNAL_SERVER_ERROR.getCode(), Status.INTERNAL_SERVER_ERROR.getDesc());
         }
     }
 
@@ -65,7 +66,7 @@ public class EmployeeService {
             return new ResponseEntity(employees, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -78,7 +79,7 @@ public class EmployeeService {
             return new ResponseEntity(employee, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -89,7 +90,7 @@ public class EmployeeService {
             return new ResponseEntity(result, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -99,7 +100,7 @@ public class EmployeeService {
             return new ResponseEntity(result, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -1,4 +1,4 @@
-package validation;
+package validation.annotation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

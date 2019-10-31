@@ -1,4 +1,5 @@
 package controller;
+import http.Response;
 import model.Employee;
 import model.EmployeeSearchRequest;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/all-employee-list")
-    public ResponseEntity getAllEmployeeList() {
+    public Response getAllEmployeeList() {
         return employeeService.getAllEmployeeList();
     }
 
@@ -27,7 +28,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/all-employee-error")
-    public ResponseEntity getAllEmployeeError() {
+    public Response getAllEmployeeError() {
         return employeeService.getAllEmployeeError();
     }
 

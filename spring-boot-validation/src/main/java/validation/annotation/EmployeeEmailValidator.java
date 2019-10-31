@@ -1,4 +1,4 @@
-package validation;
+package validation.annotation;
 
 import dao.EmployeeSqlBuilderDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,20 +8,20 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @Component
-public class EmployeeIdValidator implements ConstraintValidator<NotExistingEmployeeId, Long> {
+public class EmployeeEmailValidator implements ConstraintValidator<DuplicatedEmployeeEmail, String> {
 
     @Autowired
     private EmployeeSqlBuilderDao employeeSqlBuilderDao;
 
     @Override
-    public void initialize(NotExistingEmployeeId constraintAnnotation) {
+    public void initialize(DuplicatedEmployeeEmail constraintAnnotation) {
 
     }
 
     @Override
-    public boolean isValid(Long id, ConstraintValidatorContext context) {
-        if (id != null) {
-            return employeeSqlBuilderDao.getEmployeeById(id) != null;
+    public boolean isValid(String email, ConstraintValidatorContext context) {
+        if (email != null) {
+            return employeeSqlBuilderDao.getEmployeeByEmail(email) == null;
         }
         return true;
     }
